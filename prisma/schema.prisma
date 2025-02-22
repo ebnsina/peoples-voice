@@ -1,0 +1,90 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum VoteType {
+  AGREE
+  DISAGREE
+  NO_COMMENT
+  ABSTAIN
+}
+
+model User {
+  id        String   @id @default(uuid())
+  username  String   @unique
+  email     String   @unique
+  password  String
+  phone     String
+  isAdmin   Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  sessions Session[]
+  posts    Post[]
+  votes    Vote[]
+  comments Comment[]
+  replies  Reply[]
+}
+
+model Session {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+}
+
+model Post {
+  id        String   @id @default(uuid())
+  title     String
+  content   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  author   User      @relation(fields: [authorId], references: [id])
+  authorId String
+  votes    Vote[]
+  comments Comment[]
+}
+
+model Vote {
+  id        String   @id @default(uuid())
+  voteType  VoteType
+  createdAt DateTime @default(now())
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
+  post   Post   @relation(fields: [postId], references: [id])
+  postId String
+
+  @@unique([userId, postId])
+}
+
+model Comment {
+  id        String   @id @default(uuid())
+  content   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  author   User    @relation(fields: [authorId], references: [id])
+  authorId String
+  post     Post    @relation(fields: [postId], references: [id])
+  postId   String
+  replies  Reply[]
+}
+
+model Reply {
+  id        String   @id @default(uuid())
+  content   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  author    User    @relation(fields: [authorId], references: [id])
+  authorId  String
+  comment   Comment @relation(fields: [commentId], references: [id])
+  commentId String
+}
