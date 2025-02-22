@@ -9,13 +9,15 @@
 <div class="space-y-10">
 	{#if data.user}
 		<div>
-			<h1 class="text-2xl font-bold">Welcome to the community</h1>
-			<p class="text-sm text-blue-950">Sign in to post a question or answer someone's question.</p>
+			<h1 class="text-2xl font-bold">সম্প্রদায়ে স্বাগতম</h1>
+			<p class="text-sm text-blue-950">
+				প্রশ্ন পোস্ট করতে বা কারো প্রশ্নের উত্তর দিতে সাইন ইন করুন।
+			</p>
 		</div>
 
 		{#if form?.success}
 			<div class="rounded-xl bg-green-100 p-4 text-green-800">
-				<p class="text-sm">Post created successfully</p>
+				<p class="text-sm">পোস্ট সফলভাবে তৈরি হয়েছে</p>
 			</div>
 		{/if}
 
@@ -27,34 +29,32 @@
 
 		<form method="POST" use:enhance class="space-y-4">
 			<div>
-				<label class="mb-2 block text-sm text-slate-600" for="title">Title</label>
+				<label class="mb-2 block text-sm text-slate-600" for="title">শিরোনাম</label>
 				<input
 					class="w-full rounded-xl border-slate-200 text-sm focus:ring-2 focus:ring-offset-2"
 					type="text"
 					name="title"
-					placeholder="eg, Improve birth registration system"
+					placeholder="যেমন, জন্ম নিবন্ধন ব্যবস্থা উন্নত করা"
 				/>
 			</div>
 			<div>
-				<label class="mb-2 block text-sm text-slate-600" for="title">Content</label>
+				<label class="mb-2 block text-sm text-slate-600" for="content">বিষয়বস্তু</label>
 				<textarea
 					class="w-full rounded-xl border-slate-200 text-sm focus:ring-2 focus:ring-offset-2"
 					name="content"
 					id="content"
-					placeholder="Write some description..."
+					placeholder="কিছু বিবরণ লিখুন..."
 				></textarea>
 			</div>
 
 			<div class="mt-6 flex items-center justify-end">
-				<button
-					class="cursor-pointer rounded-xl bg-blue-500 px-6 py-2.5 text-sm text-white hover:bg-blue-600 disabled:cursor-not-allowed disabled:bg-slate-200"
-					type="submit">Create Post</button
-				>
+				<button class="btn" type="submit">পোস্ট তৈরি করুন</button>
 			</div>
 		</form>
 	{:else}
-		<div>
-			<a href="/signin">Login</a> or <a href="/signup">Create a new account</a> to post a question.
+		<div class="text-sm text-slate-600">
+			<a class="hover:underline hover:underline-offset-2" href="/signin">লগইন</a> অথবা
+			<a class="hover:underline hover:underline-offset-2" href="/signup">নতুন একাউন্ট তৈরি করুন</a>
 		</div>
 	{/if}
 
@@ -65,6 +65,6 @@
 			{/each}
 		</div>
 	{:else}
-		<p class="text-sm text-blue-950">No posts found</p>
+		<p class="text-sm text-blue-950">কোনো পোস্ট পাওয়া যায়নি</p>
 	{/if}
 </div>
